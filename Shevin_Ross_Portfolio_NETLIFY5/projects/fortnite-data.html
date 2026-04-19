@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Fortnite Data Analysis — Shevin Ross</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0a001f;color:#f0f0f8;min-height:100vh}
+header{background:rgba(10,0,31,0.95);border-bottom:1px solid rgba(183,0,255,0.2);padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.back-btn{color:#b700ff;text-decoration:none;font-size:0.85rem}
+.badge{background:rgba(183,0,255,0.1);border:1px solid rgba(183,0,255,0.3);color:#b700ff;font-size:0.72rem;padding:3px 10px;border-radius:4px}
+.hero{padding:4rem 3rem 2rem;max-width:1200px;margin:0 auto}
+.hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem}
+.hero h1 span{background:linear-gradient(135deg,#b700ff,#00cfff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:#8888aa;font-size:0.9rem;max-width:600px;line-height:1.7;margin-bottom:2rem}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.kpi{background:rgba(183,0,255,0.06);border:1px solid rgba(183,0,255,0.15);border-radius:12px;padding:1.2rem}
+.kpi-val{font-size:2rem;font-weight:800;background:linear-gradient(135deg,#b700ff,#00cfff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi-label{font-size:0.78rem;color:#8888aa;margin-top:0.3rem}
+.kpi-change{font-size:0.75rem;margin-top:0.3rem}.up{color:#00e676}.down{color:#ff5252}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:1200px;margin:0 auto 2rem;padding:0 3rem}
+.chart-card{background:rgba(183,0,255,0.04);border:1px solid rgba(183,0,255,0.12);border-radius:14px;padding:1.5rem}
+.chart-card h3{font-size:0.95rem;font-weight:600;margin-bottom:0.3rem}
+.chart-card p{font-size:0.78rem;color:#8888aa;margin-bottom:1.2rem}
+.full{grid-column:1/-1}
+.leaderboard{width:100%;border-collapse:collapse;font-size:0.85rem}
+.leaderboard th{text-align:left;padding:0.75rem;background:rgba(183,0,255,0.08);color:#8888aa;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.04em}
+.leaderboard td{padding:0.75rem;border-bottom:1px solid rgba(255,255,255,0.04)}
+.leaderboard tr:hover td{background:rgba(183,0,255,0.06)}
+.rank{color:#b700ff;font-weight:700}.name{font-weight:600}.wr{color:#00e676;font-weight:600}
+.insight{background:rgba(183,0,255,0.06);border:1px solid rgba(183,0,255,0.15);border-radius:10px;padding:1rem 1.5rem;margin-bottom:1rem;font-size:0.88rem;line-height:1.6;color:#ccc}
+.insight b{color:#b700ff}
+footer{text-align:center;padding:2rem;color:#555;font-size:0.82rem;border-top:1px solid rgba(255,255,255,0.05)}
+footer span{color:#b700ff}
+</style>
+</head>
+<body>
+<header>
+  <a href="../Shevin_Ross_Portfolio.html" class="back-btn">← Back to Portfolio</a>
+  <div style="font-size:1rem;font-weight:600;color:#ccc">🎮 Fortnite Player Data Analysis</div>
+  <span class="badge">Self-Study · Kaggle Dataset</span>
+</header>
+<div class="hero" style="background:linear-gradient(rgba(10,0,31,0.88),rgba(10,0,31,0.97)),url(https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=1400&q=80&auto=format&fit=crop) center/cover no-repeat;">
+  <h1>Fortnite Player <span>Data Analysis</span></h1>
+  <p>A self-directed gaming analytics project using a Kaggle Fortnite dataset. This analysis explores player win rates, weapon usage patterns, kill distributions, and performance trends across competitive seasons.</p>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-val">128K</div><div class="kpi-label">Player Records Analyzed</div><div class="kpi-change up">↑ Cross-platform data</div></div>
+    <div class="kpi"><div class="kpi-val">6.8%</div><div class="kpi-label">Average Win Rate</div><div class="kpi-change up">↑ Top 10% threshold: 18%</div></div>
+    <div class="kpi"><div class="kpi-val">3.4</div><div class="kpi-label">Avg Kills Per Match</div><div class="kpi-change up">↑ Elite avg: 8.2</div></div>
+    <div class="kpi"><div class="kpi-val">22 min</div><div class="kpi-label">Avg Match Duration</div><div class="kpi-change down">↓ 3 min vs Season 1</div></div>
+  </div>
+</div>
+<div class="grid">
+  <div class="chart-card">
+    <h3>Win Rate Distribution by Player Tier</h3>
+    <p>Percentage of players in each win-rate bracket</p>
+    <canvas id="winChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Top Weapons by Kill Count</h3>
+    <p>Most lethal weapons across all analyzed matches</p>
+    <canvas id="weaponChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Avg Kills Per Match — By Season</h3>
+    <p>Kill performance trend from Season 1 to Season 8</p>
+    <canvas id="killsChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Placement Distribution</h3>
+    <p>Where players typically finish across all matches</p>
+    <canvas id="placementChart" height="220"></canvas>
+  </div>
+  <div class="chart-card full">
+    <h3>🏆 Top 10 Players — Sample Dataset</h3>
+    <p style="margin-bottom:1rem">Ranked by win rate among players with 100+ matches</p>
+    <table class="leaderboard">
+      <thead><tr><th>Rank</th><th>Username</th><th>Matches</th><th>Wins</th><th>Win Rate</th><th>Avg Kills</th><th>KD Ratio</th></tr></thead>
+      <tbody>
+        <tr><td class="rank">#1</td><td class="name">NightStrike_TT</td><td>847</td><td>298</td><td class="wr">35.2%</td><td>9.8</td><td>4.2</td></tr>
+        <tr><td class="rank">#2</td><td class="name">GhostRider99</td><td>1203</td><td>387</td><td class="wr">32.2%</td><td>8.6</td><td>3.8</td></tr>
+        <tr><td class="rank">#3</td><td class="name">PixelHunter</td><td>654</td><td>196</td><td class="wr">30.0%</td><td>7.9</td><td>3.5</td></tr>
+        <tr><td class="rank">#4</td><td class="name">StormBreaker_X</td><td>922</td><td>258</td><td class="wr">28.0%</td><td>8.2</td><td>3.3</td></tr>
+        <tr><td class="rank">#5</td><td class="name">VaultKing</td><td>1088</td><td>294</td><td class="wr">27.0%</td><td>7.5</td><td>3.1</td></tr>
+        <tr><td class="rank">#6</td><td class="name">BlueShadow22</td><td>780</td><td>195</td><td class="wr">25.0%</td><td>7.1</td><td>2.9</td></tr>
+        <tr><td class="rank">#7</td><td class="name">CrystalSniper</td><td>543</td><td>124</td><td class="wr">22.8%</td><td>6.8</td><td>2.7</td></tr>
+        <tr><td class="rank">#8</td><td class="name">IronFort_TT</td><td>687</td><td>145</td><td class="wr">21.1%</td><td>6.4</td><td>2.5</td></tr>
+        <tr><td class="rank">#9</td><td class="name">DuskCrawler</td><td>1120</td><td>224</td><td class="wr">20.0%</td><td>6.2</td><td>2.4</td></tr>
+        <tr><td class="rank">#10</td><td class="name">ApexProwler</td><td>890</td><td>169</td><td class="wr">19.0%</td><td>5.9</td><td>2.2</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="chart-card full">
+    <h3>Key Findings</h3>
+    <p style="margin-bottom:1rem">Insights from statistical analysis of the Fortnite dataset</p>
+    <div class="insight"><b>Finding 1:</b> Players with a KD ratio above 3.0 win 28% of their matches on average — nearly 4x the global average of 6.8%, confirming that kill efficiency is strongly correlated with wins.</div>
+    <div class="insight"><b>Finding 2:</b> Shotguns and assault rifles account for 68% of all eliminations, making them the dominant weapon classes regardless of player skill level.</div>
+    <div class="insight"><b>Finding 3:</b> Match duration has decreased from an average of 25 minutes in Season 1 to 22 minutes by Season 8, reflecting faster-paced meta shifts and storm timing changes.</div>
+  </div>
+</div>
+<footer>Analysis by <span>Shevin Ross</span> · Tools: Python · Pandas · Matplotlib · Kaggle Dataset · Self-Study © 2025</footer>
+<script>
+const C=(id,type,labels,data,colors)=>{new Chart(document.getElementById(id).getContext('2d'),{type,data:{labels,datasets:[{data,backgroundColor:colors,borderColor:colors,borderWidth:type==='line'?2:0,fill:type==='line',tension:0.4}]},options:{responsive:true,plugins:{legend:{display:type==='doughnut',labels:{color:'#8888aa',boxWidth:12}}},scales:type!=='doughnut'?{x:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.06)'}}}:{}}});};
+C('winChart','doughnut',['0–5%','5–15%','15–25%','25%+'],[52,31,12,5],['rgba(183,0,255,0.7)','rgba(0,207,255,0.7)','rgba(0,230,118,0.7)','rgba(255,171,0,0.9)']);
+C('weaponChart','bar',['Shotgun','AR','SMG','Sniper','Pistol','Explosives'],[28400,22100,15600,9800,6200,4100],['rgba(183,0,255,0.8)','rgba(183,0,255,0.75)','rgba(183,0,255,0.65)','rgba(183,0,255,0.6)','rgba(183,0,255,0.5)','rgba(183,0,255,0.45)']);
+C('killsChart','line',['S1','S2','S3','S4','S5','S6','S7','S8'],[2.8,3.0,3.1,3.3,3.4,3.5,3.3,3.4],['rgba(0,207,255,0.8)']);
+C('placementChart','bar',['Top 1','Top 5','Top 10','Top 25','Top 50','Bottom'],[6.8,14.2,22.5,35.8,14.4,6.3],['rgba(255,171,0,0.9)','rgba(255,171,0,0.75)','rgba(255,171,0,0.6)','rgba(255,171,0,0.5)','rgba(255,171,0,0.4)','rgba(255,82,82,0.6)']);
+</script>
+</body>
+</html>

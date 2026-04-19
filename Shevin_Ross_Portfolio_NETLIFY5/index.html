@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shevin Ross | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>window.addEventListener("load",()=>emailjs.init("5zn3X_qUCn9k5FSm5"));</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --surface: #13131a; --surface2: #1c1c27;
+      --accent: #7c5cfc; --accent2: #00d4ff;
+      --text: #f0f0f8; --muted: #8888aa; --border: #2a2a3a;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 3rem;
+      background: rgba(10,10,15,0.88); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, rgba(124,92,252,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(124,92,252,0.15); border: 1px solid rgba(124,92,252,0.3);
+      border-radius: 50px; padding: 0.4rem 1.1rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--accent); margin-bottom: 1.5rem;
+    }
+    .hero-badge span { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display:inline-block; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+    .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
+    .hero h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 540px; margin: 0 auto 2.5rem; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn { padding: 0.75rem 1.75rem; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.25s; display: inline-block; border: none; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), #5a3fcf); color: #fff; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(124,92,252,0.45); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .hero-stats { display: flex; gap: 3rem; justify-content: center; margin-top: 4rem; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-tag { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.75rem; }
+    .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; margin-bottom: 1rem; }
+    .section-desc { color: var(--muted); max-width: 520px; margin-bottom: 1.5rem; font-size: 0.95rem; }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+    .skill-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.9rem; font-size: 0.82rem; color: var(--muted); transition: all 0.2s; cursor: default; }
+    .skill-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .about-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; }
+    .about-card h3 { font-size: 1.05rem; margin-bottom: 1.2rem; }
+    .about-list { list-style: none; }
+    .about-list li { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; color: var(--muted); line-height: 1.4; }
+    .about-list li:last-child { border-bottom: none; }
+    .about-list li::before { content: '✦'; color: var(--accent); font-size: 0.6rem; flex-shrink: 0; margin-top: 3px; }
+
+    /* PROJECT CARDS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden; cursor: pointer;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .project-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 16px 40px rgba(124,92,252,0.15); }
+
+    .project-thumb {
+      position: relative; height: 200px; overflow: hidden;
+    }
+    .project-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+    .project-card:hover .project-thumb img { transform: scale(1.08); }
+    .project-thumb-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(10,10,20,0.72) 100%);
+    }
+    .project-thumb-badge {
+      position: absolute; top: 12px; left: 12px; z-index: 3;
+      background: rgba(124,92,252,0.85); backdrop-filter: blur(6px);
+      color: #fff; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; border-radius: 6px; padding: 4px 10px;
+    }
+    .view-label {
+      position: absolute; bottom: 12px; right: 14px; z-index: 3;
+      color: #fff; font-size: 0.75rem; font-weight: 600;
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .project-card:hover .view-label { opacity: 1; }
+
+    .project-body { padding: 1.4rem; }
+    .project-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 0.45rem; }
+    .project-desc { font-size: 0.855rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { background: rgba(124,92,252,0.1); border: 1px solid rgba(124,92,252,0.2); color: var(--accent); font-size: 0.72rem; font-weight: 500; border-radius: 4px; padding: 0.25rem 0.6rem; }
+
+    .self-study-note {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+      color: var(--accent2); font-size: 0.78rem; font-weight: 500;
+      border-radius: 6px; padding: 0.35rem 0.85rem; margin-bottom: 2rem;
+    }
+
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0 2rem; }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item { display: flex; align-items: center; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; transition: border-color 0.2s; }
+    .contact-item:hover { border-color: var(--accent); }
+    .contact-icon { font-size: 1.2rem; }
+    .contact-label { font-size: 0.73rem; color: var(--muted); margin-bottom: 1px; }
+    .contact-val { font-size: 0.9rem; font-weight: 500; }
+    .contact-val a { color: var(--accent); text-decoration: none; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-form input, .contact-form textarea {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.85rem 1rem; color: var(--text); font-family: inherit; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--accent); }
+    .contact-form textarea { resize: vertical; min-height: 130px; }
+
+    footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+
+    
+    /* GAMES SECTION */
+    .game-feature { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-bottom: 3rem; }
+    .game-img { position: relative; border-radius: 16px; overflow: hidden; height: 380px; }
+    .game-img img { width: 100%; height: 100%; object-fit: cover; }
+    .game-img-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(124,92,252,0.4) 0%, rgba(0,0,0,0.3) 100%); }
+    .game-img-badge { position: absolute; top: 16px; left: 16px; background: rgba(124,92,252,0.9); color: #fff; font-size: 0.8rem; font-weight: 700; padding: 6px 14px; border-radius: 8px; backdrop-filter: blur(6px); }
+    .game-tag { font-size: 0.78rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .game-title { font-family: "Space Grotesk", sans-serif; font-size: 2rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
+    .game-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 1.5rem; }
+    .game-features { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1.5rem; }
+    .game-feat { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--muted); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.8rem; }
+    .game-feat span { font-size: 1rem; }
+    .game-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .game-why { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+    .why-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; transition: border-color 0.2s; }
+    .why-card:hover { border-color: var(--accent); }
+    .why-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .why-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .why-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+    @media (max-width: 768px) { .game-feature, .game-why { grid-template-columns: 1fr; } .game-features { grid-template-columns: 1fr; } }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; } .nav-links { display: none; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Shevin Ross</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#web">Web Projects</a></li>
+    <li><a href="#data">Data</a></li>
+    <li><a href="#games">Games</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge"><span></span> Open to Work</div>
+  <h1>Developer. Designer.<br/><span>Data Analyst.</span></h1>
+  <p class="hero-sub">Building digital experiences, turning data into decisions, and crafting original game worlds. Based in Trinidad &amp; Tobago.</p>
+  <div class="hero-btns">
+    <a href="#web" class="btn btn-primary">View My Work</a>
+    <a href="#contact" class="btn btn-outline">Get In Touch</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Web Projects</div></div>
+    <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Data Projects</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Published Books</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">Game In Dev</div></div>
+    <div class="stat"><div class="stat-num">3+</div><div class="stat-label">Years Experience</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-tag">About Me</div>
+        <h2 class="section-title">Creative mind.<br/>Analytical core.</h2>
+        <p>I'm Shevin Ross — a Developer, Web Designer, Junior Data Analyst, and aspiring Game Developer from Port of Spain, Trinidad &amp; Tobago. I blend creative design with technical thinking to build digital products that look great and perform even better.</p>
+        <p>Currently pursuing a BSc in Computer Science at UWI. I'm passionate about game design and am actively developing an original IP — a 4-element Battle Royale built in Unreal Engine 5 with C++. I believe games are the most powerful form of interactive storytelling, and building them is where my creativity and technical skills fully collide.</p>
+        <p>I'm also a published author of two books on Amazon KDP and a musician. Outside of screens, you'll find me playing basketball or composing music — both feed directly back into how I design and build.</p>
+        <div class="skills-grid">
+          <span class="skill-chip">HTML/CSS</span><span class="skill-chip">JavaScript</span>
+          <span class="skill-chip">React</span><span class="skill-chip">Python</span>
+          <span class="skill-chip">SQL</span><span class="skill-chip">BigQuery</span>
+          <span class="skill-chip">Excel</span><span class="skill-chip">Data Visualization</span>
+          <span class="skill-chip">UI Design</span><span class="skill-chip">Netlify</span>
+          <span class="skill-chip">Firebase</span><span class="skill-chip">Canva</span>
+          <span class="skill-chip">Spanish (Int.)</span>
+          <span class="skill-chip">Unreal Engine 5</span>
+          <span class="skill-chip">C++ (Learning)</span>
+          <span class="skill-chip">Game Design</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <h3>Quick Facts</h3>
+        <ul class="about-list">
+          <li>Based in Port of Spain, Trinidad &amp; Tobago</li>
+          <li>BSc Computer Science — UWI (2025 – Present)</li>
+          <li>Google Data Analytics Certified (5/8)</li>
+          <li>Business Analysis &amp; Process Management Cert.</li>
+          <li>Associate Degree in Management — UWI Roytec</li>
+          <li>8 CSEC Passes including Maths &amp; English</li>
+          <li>Published Author — 2 books on Amazon KDP</li>
+          <li>Musician — Piano &amp; Music Composition</li>
+          <li>Game Developer — Unreal Engine 5 &amp; C++</li>
+          <li>Original multiplayer IP currently in development</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WEB PROJECTS -->
+<section id="web">
+  <div class="container">
+    <div class="section-tag">Web Development</div>
+    <h2 class="section-title">Web Projects</h2>
+    <p class="section-desc">Designed and developed from scratch — responsive, modern, and built for real users.</p>
+    <div class="self-study-note">⭐ All projects independently designed &amp; built as self-study work</div>
+    <div class="projects-grid">
+
+      <div class="project-card" onclick="window.open('projects/online-store.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=700&q=80&auto=format&fit=crop" alt="Online Store" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1a1035,#3d2080)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">E-Commerce</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Online Store</div>
+          <p class="project-desc">A fully functional e-commerce storefront with product listings, cart functionality, and a clean responsive checkout experience.</p>
+          <div class="project-tags"><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">UI Design</span></div>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="window.open('projects/anime-universe.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=700&q=80&auto=format&fit=crop" alt="Anime Universe" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#0d0020,#2d0050)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">Entertainment</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Anime Universe</div>
+          <p class="project-desc">An anime discovery platform featuring episode guides, character databases, and a dynamic UI inspired by Japanese animation.</p>
+          <div class="project-tags"><span class="tag">React</span><span class="tag">API Integration</span><span class="tag">CSS Animations</span></div>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="window.open('projects/restaurant.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80&auto=format&fit=crop" alt="Restaurant" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1a0800,#3d1a00)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">Food &amp; Hospitality</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Soca Kitchen — Restaurant</div>
+          <p class="project-desc">A Caribbean restaurant website with a full menu, photo gallery, and reservation flow built for real customer engagement.</p>
+          <div class="project-tags"><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">Responsive</span></div>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="window.open('projects/study-site.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=700&q=80&auto=format&fit=crop" alt="Study Site" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#001525,#003355)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">EdTech</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Shev's Study — AI App</div>
+          <p class="project-desc">An AI-powered study web app with four learning modes (Lesson, Examples, Practice, Quiz), document upload and AI-driven grading.</p>
+          <div class="project-tags"><span class="tag">React</span><span class="tag">Anthropic API</span><span class="tag">PDF/DOCX</span></div>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="window.open('projects/school-project.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=700&q=80&auto=format&fit=crop" alt="School Project" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#001a0a,#003320)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">Academic</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">CampusLink — School System</div>
+          <p class="project-desc">A full-stack school management system with student records, course management, attendance, and grade reporting.</p>
+          <div class="project-tags"><span class="tag">HTML/CSS/JS</span><span class="tag">Full Stack</span><span class="tag">Academic</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DATA PROJECTS -->
+<section id="data">
+  <div class="container">
+    <div class="section-tag">Data Analytics</div>
+    <h2 class="section-title">Data Projects</h2>
+    <p class="section-desc">Real datasets, real insights — applying SQL, Python, and visualization tools to answer meaningful questions.</p>
+    <div class="self-study-note">⭐ All projects independently researched, designed &amp; completed as self-study</div>
+    <div class="projects-grid">
+
+      <div class="project-card" onclick="window.open('projects/medical-data.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=700&q=80&auto=format&fit=crop" alt="Medical Data" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#001a1a,#003344)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">Predictive Analytics</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Medical Data Analysis</div>
+          <p class="project-desc">Analyzed healthcare records from BigQuery's public database (2019–2024) — patient stays, treatment costs, and admission trends.</p>
+          <div class="project-tags"><span class="tag">BigQuery</span><span class="tag">SQL</span><span class="tag">Python</span><span class="tag">Data Viz</span></div>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="window.open('projects/fortnite-data.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=700&q=80&auto=format&fit=crop" alt="Fortnite Gaming" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#0a001f,#1f0050)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">Gaming Analytics</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Fortnite Player Analysis</div>
+          <p class="project-desc">Deep-dived into Fortnite match stats from Kaggle to identify win-rate trends, weapon usage, and player performance patterns.</p>
+          <div class="project-tags"><span class="tag">Kaggle</span><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Matplotlib</span></div>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="window.open('projects/business-data.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80&auto=format&fit=crop" alt="Business Data" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#0a1500,#1f3300)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">Business Intelligence</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Small Business Analysis</div>
+          <p class="project-desc">End-to-end BI analysis of small business data to surface revenue drivers, cost inefficiencies, and operational improvements.</p>
+          <div class="project-tags"><span class="tag">Excel</span><span class="tag">SQL</span><span class="tag">BI Dashboard</span><span class="tag">Kaggle</span></div>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="window.open('projects/covid-data.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=700&q=80&auto=format&fit=crop" alt="COVID Data" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1a0000,#3d0010)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">Exploratory Analysis</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Global COVID-19 Trends</div>
+          <p class="project-desc">Explored real WHO/Worldometer COVID-19 data tracking 704M+ cases, 7M deaths, and vaccination rollout across regions.</p>
+          <div class="project-tags"><span class="tag">Kaggle</span><span class="tag">Python</span><span class="tag">Seaborn</span><span class="tag">Pandas</span></div>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="window.open('projects/housing-data.html','_blank')">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=700&q=80&auto=format&fit=crop" alt="Housing Data" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#100a00,#2d1f00)'"/>
+          <div class="project-thumb-overlay"></div>
+          <div class="project-thumb-badge">Regression Analysis</div>
+          <div class="view-label">View Project →</div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Housing Price Prediction</div>
+          <p class="project-desc">Regression modelling on 21,613 King County homes (Kaggle) predicting property prices. Includes a live interactive price predictor.</p>
+          <div class="project-tags"><span class="tag">Kaggle</span><span class="tag">Scikit-learn</span><span class="tag">Regression</span><span class="tag">Python</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<div class="divider"></div>
+
+<!-- GAMES SECTION -->
+<section id="games">
+  <div class="container">
+    <div class="section-tag">Game Development</div>
+    <h2 class="section-title">Building Worlds 🎮</h2>
+    <p class="section-desc">Game development is where my passion for storytelling, design, and code fully collide. I'm currently building my first original IP.</p>
+
+    <div class="game-feature">
+      <div class="game-img">
+        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80&auto=format&fit=crop" alt="Game Development" onerror="this.style.display='none'"/>
+        <div class="game-img-overlay"></div>
+        <div class="game-img-badge">🔥 In Development</div>
+      </div>
+      <div class="game-info">
+        <div class="game-tag">Original IP · Unreal Engine 5 · Coming Soon</div>
+        <h3 class="game-title">Original Multiplayer Game — Unannounced</h3>
+        <p class="game-desc">I'm currently deep in development on an original multiplayer game IP built from scratch in Unreal Engine 5 using C++. The concept, design, and systems are fully mine — more details will be revealed closer to launch. This project is where my passion for storytelling, systems design, and code all come together.</p>
+        <div class="game-features">
+          <div class="game-feat"><span>🔧</span> Built in Unreal Engine 5</div>
+          <div class="game-feat"><span>💻</span> C++ Systems Programming</div>
+          <div class="game-feat"><span>🎮</span> Multiplayer Architecture</div>
+          <div class="game-feat"><span>🖥️</span> Dedicated Server Setup</div>
+          <div class="game-feat"><span>🎨</span> Original Game Design</div>
+          <div class="game-feat"><span>🔒</span> Full Details — Coming Soon</div>
+        </div>
+        <div class="game-stack">
+          <span class="tag">Unreal Engine 5</span>
+          <span class="tag">C++</span>
+          <span class="tag">Multiplayer</span>
+          <span class="tag">Game Design</span>
+          <span class="tag">Original IP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-why">
+      <div class="why-card">
+        <div class="why-icon">🎯</div>
+        <h4>Why Game Dev?</h4>
+        <p>Games combine everything I love — storytelling, systems design, code, and art — into a single interactive experience. I want to build worlds that people lose themselves in.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📚</div>
+        <h4>How I'm Learning</h4>
+        <p>Studying C++ and UE5 architecture daily alongside my BSc Computer Science degree. I build systems, break them, and rebuild them — that's how I grow fastest.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🚀</div>
+        <h4>The Vision</h4>
+        <p>Launch a smaller scoped game first to learn the full pipeline — design, development, publishing. Then bring Elementals to life as a fully polished multiplayer title.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-tag">Contact</div>
+    <h2 class="section-title">Let's work together.</h2>
+    <p class="section-desc">Open to freelance projects, collaborations, and full-time opportunities.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div><div class="contact-label">Email</div><div class="contact-val"><a href="mailto:Shevinguerra.ross@gmail.com">Shevinguerra.ross@gmail.com</a></div></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">💼</div>
+          <div><div class="contact-label">LinkedIn</div><div class="contact-val"><a href="https://tt.linkedin.com/in/shevinross" target="_blank">tt.linkedin.com/in/shevinross</a></div></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div><div class="contact-label">Location</div><div class="contact-val">Port of Spain, Trinidad &amp; Tobago 🇹🇹</div></div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <input type="text" id="cf-name" placeholder="Your Name" required/>
+        <input type="email" id="cf-email" placeholder="Your Email" required/>
+        <input type="text" id="cf-subject" placeholder="Subject" required/>
+        <textarea id="cf-message" placeholder="Your message..." required></textarea>
+        <button class="btn btn-primary" id="cf-btn" onclick="sendEmail()" style="width:100%;cursor:pointer;">Send Message ✉️</button>
+        <div id="cf-status" style="display:none;padding:0.75rem 1rem;border-radius:8px;font-size:0.88rem;text-align:center;margin-top:0.5rem;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Shevin Nathaniel Ross &nbsp;·&nbsp; Built with passion in Trinidad &amp; Tobago 🇹🇹</p>
+</footer>
+
+
+<script>
+function sendEmail() {
+  const name    = document.getElementById("cf-name").value.trim();
+  const email   = document.getElementById("cf-email").value.trim();
+  const subject = document.getElementById("cf-subject").value.trim();
+  const message = document.getElementById("cf-message").value.trim();
+  const btn     = document.getElementById("cf-btn");
+  const status  = document.getElementById("cf-status");
+
+  if (!name || !email || !subject || !message) {
+    status.style.display = "block";
+    status.style.background = "rgba(255,82,82,0.1)";
+    status.style.border = "1px solid rgba(255,82,82,0.3)";
+    status.style.color = "#ff5252";
+    status.textContent = "⚠️ Please fill in all fields before sending.";
+    return;
+  }
+
+  btn.textContent = "Sending...";
+  btn.style.opacity = "0.7";
+  btn.style.pointerEvents = "none";
+
+  emailjs.send("service_4uh3t2h", "template_etkrakk", {
+    from_name:    name,
+    from_email:   email,
+    subject:      subject,
+    message:      message,
+    to_email:     "Shevinguerra.ross@gmail.com"
+  })
+  .then(() => {
+    status.style.display = "block";
+    status.style.background = "rgba(0,230,118,0.1)";
+    status.style.border = "1px solid rgba(0,230,118,0.3)";
+    status.style.color = "#00e676";
+    status.textContent = "✅ Message sent! Shevin will get back to you soon.";
+    btn.textContent = "Sent ✓";
+    document.getElementById("cf-name").value = "";
+    document.getElementById("cf-email").value = "";
+    document.getElementById("cf-subject").value = "";
+    document.getElementById("cf-message").value = "";
+  })
+  .catch((err) => {
+    status.style.display = "block";
+    status.style.background = "rgba(255,82,82,0.1)";
+    status.style.border = "1px solid rgba(255,82,82,0.3)";
+    status.style.color = "#ff5252";
+    status.textContent = "❌ Something went wrong. Email Shevin directly at Shevinguerra.ross@gmail.com";
+    btn.textContent = "Send Message ✉️";
+    btn.style.opacity = "1";
+    btn.style.pointerEvents = "auto";
+    console.error("EmailJS error:", err);
+  });
+}
+</script>
+
+</body>
+</html>

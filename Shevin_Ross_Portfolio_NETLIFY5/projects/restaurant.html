@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Soca Kitchen — Trinidad Restaurant</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a}
+nav{background:#1a0800;padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff}.logo span{color:#ff6b35}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:#ccc;font-size:0.9rem;transition:color 0.2s}
+.nav-links a:hover{color:#ff6b35}
+.reserve-btn{background:#ff6b35;color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem}
+.hero{background:linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55)),linear-gradient(135deg,#3d1a00,#1a0800);min-height:90vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:4rem 2rem;position:relative;overflow:hidden}
+.hero-emoji{font-size:4rem;margin-bottom:1rem;display:block}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,4.5rem);margin-bottom:1rem;line-height:1.15}
+.hero h1 span{color:#ff6b35}
+.hero p{font-size:1.1rem;opacity:0.85;max-width:540px;margin:0 auto 2rem}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{padding:0.8rem 2rem;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.95rem;transition:all 0.2s;border:none}
+.btn-primary{background:#ff6b35;color:#fff}
+.btn-primary:hover{background:#e05a2a;transform:translateY(-2px)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.5)}
+.btn-outline:hover{border-color:#ff6b35;color:#ff6b35}
+.highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:#ff6b35}
+.hl{padding:2rem;text-align:center;border-right:1px solid rgba(255,255,255,0.2);color:#fff}
+.hl:last-child{border-right:none}
+.hl-icon{font-size:2rem;margin-bottom:0.5rem}
+.hl-num{font-size:1.8rem;font-weight:800;font-family:'Playfair Display',serif}
+.hl-label{font-size:0.82rem;opacity:0.85}
+.menu-section{padding:5rem 3rem;background:#faf8f5}
+.menu-section h2{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;margin-bottom:0.5rem;text-align:center}
+.menu-section .subtitle{text-align:center;color:#888;margin-bottom:3rem}
+.menu-tabs{display:flex;justify-content:center;gap:0.5rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.tab{padding:0.5rem 1.4rem;border-radius:50px;border:1px solid #ddd;cursor:pointer;font-size:0.88rem;background:#fff;transition:all 0.2s}
+.tab.active,.tab:hover{background:#ff6b35;color:#fff;border-color:#ff6b35}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;max-width:1100px;margin:0 auto}
+.menu-item{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:transform 0.2s}
+.menu-item:hover{transform:translateY(-3px)}
+.menu-img{height:150px;display:flex;align-items:center;justify-content:center;font-size:3.5rem}
+.menu-body{padding:1.2rem}
+.menu-tag{font-size:0.7rem;color:#ff6b35;font-weight:700;text-transform:uppercase;margin-bottom:0.3rem;letter-spacing:0.05em}
+.menu-name{font-weight:700;font-size:1rem;margin-bottom:0.4rem}
+.menu-desc{font-size:0.82rem;color:#888;margin-bottom:1rem;line-height:1.5}
+.menu-footer{display:flex;align-items:center;justify-content:space-between}
+.menu-price{font-weight:700;color:#1a1a1a;font-size:1.05rem}
+.order-btn{background:#ff6b35;color:#fff;border:none;padding:0.4rem 1rem;border-radius:6px;font-size:0.8rem;cursor:pointer;font-weight:600}
+.about{padding:5rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;max-width:1100px;margin:0 auto}
+.about-visual{background:linear-gradient(135deg,#3d1a00,#1a0800);border-radius:20px;height:350px;display:flex;align-items:center;justify-content:center;font-size:6rem}
+.about h2{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:1rem}
+.about p{color:#666;line-height:1.8;margin-bottom:1rem;font-size:0.95rem}
+.reserve{background:#1a0800;color:#fff;padding:5rem 3rem;text-align:center}
+.reserve h2{font-family:'Playfair Display',serif;font-size:2.2rem;margin-bottom:0.5rem}
+.reserve p{color:#aaa;margin-bottom:2rem}
+.form{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;max-width:600px;margin:0 auto}
+.form input,.form select{flex:1;min-width:150px;padding:0.8rem 1rem;border-radius:8px;border:none;font-size:0.9rem;font-family:inherit}
+.form-btn{background:#ff6b35;color:#fff;border:none;padding:0.8rem 2rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.95rem;width:100%}
+footer{background:#0d0400;color:#666;text-align:center;padding:2rem;font-size:0.85rem}
+footer span{color:#ff6b35}
+.toast{position:fixed;bottom:2rem;right:2rem;background:#1a0800;color:#fff;border-left:4px solid #ff6b35;padding:1rem 1.5rem;border-radius:8px;font-size:0.9rem;transform:translateY(100px);opacity:0;transition:all 0.3s;z-index:999}
+.toast.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Soca <span>Kitchen</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#">Menu</a></li><li><a href="#">About</a></li><li><a href="#">Gallery</a></li>
+  </ul>
+  <button class="reserve-btn" onclick="document.querySelector('.reserve').scrollIntoView({behavior:'smooth'})">Reserve a Table</button>
+</nav>
+
+<div class="hero" style="background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80&auto=format&fit=crop) center/cover no-repeat;">
+  <span class="hero-emoji">🍛</span>
+  <h1>Taste the Soul of <span>Trinidad</span></h1>
+  <p>Authentic Caribbean flavours crafted with love, spice, and generations of tradition. Where every meal is a celebration.</p>
+  <div class="hero-btns">
+    <button class="btn btn-primary" onclick="document.querySelector('.menu-section').scrollIntoView({behavior:'smooth'})">View Menu</button>
+    <button class="btn btn-outline" onclick="document.querySelector('.reserve').scrollIntoView({behavior:'smooth'})">Reserve Table</button>
+  </div>
+</div>
+
+<div class="highlights">
+  <div class="hl"><div class="hl-icon">🏆</div><div class="hl-num">12+</div><div class="hl-label">Years of Excellence</div></div>
+  <div class="hl"><div class="hl-icon">🍽️</div><div class="hl-num">50+</div><div class="hl-label">Menu Items</div></div>
+  <div class="hl"><div class="hl-icon">⭐</div><div class="hl-num">4.9</div><div class="hl-label">Google Rating</div></div>
+</div>
+
+<div class="menu-section">
+  <h2>Our Menu</h2>
+  <p class="subtitle">Fresh ingredients, bold flavours, pure Trinidad</p>
+  <div class="menu-tabs">
+    <div class="tab active">All</div><div class="tab">Mains</div><div class="tab">Street Food</div><div class="tab">Seafood</div><div class="tab">Desserts</div><div class="tab">Drinks</div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item"><div class="menu-img" style="padding:0;overflow:hidden"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='🍛'"/></div><div class="menu-body"><div class="menu-tag">Main Course</div><div class="menu-name">Curry Chicken & Roti</div><div class="menu-desc">Tender chicken slow-cooked in aromatic curry spices, served with warm dhalpuri roti. A true TT classic.</div><div class="menu-footer"><span class="menu-price">$TT 85</span><button class="order-btn" onclick="toast('🍛 Curry Chicken added!')">Order</button></div></div></div>
+    <div class="menu-item"><div class="menu-img" style="padding:0;overflow:hidden"><img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&q=80&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='🫕'"/></div><div class="menu-body"><div class="menu-tag">Street Food</div><div class="menu-name">Doubles</div><div class="menu-desc">Two bara stuffed with curried channa, tamarind, pepper, and chadon beni sauce. The ultimate TT street snack.</div><div class="menu-footer"><span class="menu-price">$TT 12</span><button class="order-btn" onclick="toast('🫕 Doubles added!')">Order</button></div></div></div>
+    <div class="menu-item"><div class="menu-img" style="padding:0;overflow:hidden"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='🦀'"/></div><div class="menu-body"><div class="menu-tag">Seafood</div><div class="menu-name">Crab & Dumplings</div><div class="menu-desc">Blue crab in a rich, spiced curry broth with handmade dumplings. A weekend favourite.</div><div class="menu-footer"><span class="menu-price">$TT 150</span><button class="order-btn" onclick="toast('🦀 Crab & Dumplings added!')">Order</button></div></div></div>
+    <div class="menu-item"><div class="menu-img" style="padding:0;overflow:hidden"><img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80&auto=format&fit=crop" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='🥘'"/></div><div class="menu-body"><div class="menu-tag">Main Course</div><div class="menu-name">Pelau</div><div class="menu-desc">One-pot rice cooked with caramelized chicken, pigeon peas, coconut milk, and Caribbean seasonings.</div><div class="menu-footer"><span class="menu-price">$TT 90</span><button class="order-btn" onclick="toast('🥘 Pelau added!')">Order</button></div></div></div>
+    <div class="menu-item"><div class="menu-img" style="background:linear-gradient(135deg,#fff8e1,#ffd740)">🍮</div><div class="menu-body"><div class="menu-tag">Dessert</div><div class="menu-name">Coconut Sweet Bread</div><div class="menu-desc">Soft, dense bread made with fresh coconut, mixed essence, and a golden raisin swirl. Baked fresh daily.</div><div class="menu-footer"><span class="menu-price">$TT 40</span><button class="order-btn" onclick="toast('🍞 Sweet Bread added!')">Order</button></div></div></div>
+    <div class="menu-item"><div class="menu-img" style="background:linear-gradient(135deg,#f3e5f5,#ce93d8)">🥤</div><div class="menu-body"><div class="menu-tag">Drink</div><div class="menu-name">Sorrel & Ginger Beer</div><div class="menu-desc">House-made sorrel drink with fresh ginger beer, lightly spiced with clove and cinnamon. Served chilled.</div><div class="menu-footer"><span class="menu-price">$TT 25</span><button class="order-btn" onclick="toast('🥤 Drink added!')">Order</button></div></div></div>
+  </div>
+</div>
+
+<div class="about">
+  <div class="about-visual">🌶️</div>
+  <div>
+    <h2>Rooted in Tradition,<br/>Cooked with Love</h2>
+    <p>Soca Kitchen was born from a simple dream — to bring the authentic flavours of Trinidad's home kitchens to every table. Founded in 2012, we've been serving the community with recipes passed down through generations.</p>
+    <p>Every ingredient is sourced locally. Every dish is made fresh daily. Every meal tells a story of the beautiful island we call home.</p>
+    <button class="btn btn-primary" style="margin-top:1rem">Our Story</button>
+  </div>
+</div>
+
+<div class="reserve">
+  <h2>Reserve Your Table</h2>
+  <p>Join us for an unforgettable dining experience. Booking is quick and easy.</p>
+  <div class="form">
+    <input type="text" placeholder="Your Name"/>
+    <input type="email" placeholder="Email Address"/>
+    <input type="tel" placeholder="Phone Number"/>
+    <input type="date"/>
+    <select><option>2 Guests</option><option>4 Guests</option><option>6+ Guests</option></select>
+    <button class="form-btn" onclick="toast('✅ Reservation confirmed! We\'ll call you shortly.')">Confirm Reservation</button>
+  </div>
+</div>
+
+<footer>Built by <span>Shevin Ross</span> · Soca Kitchen © 2025 · Port of Spain, Trinidad 🇹🇹</footer>
+<div class="toast" id="toast"></div>
+<script>
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+document.querySelectorAll('.tab').forEach(t=>{t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');});});
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ShopLocal TT — Online Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f8f7f4;color:#1a1a1a}
+nav{background:#fff;padding:1rem 3rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 8px rgba(0,0,0,0.08);position:sticky;top:0;z-index:100}
+.logo{font-size:1.4rem;font-weight:700;color:#1a1a1a}.logo span{color:#e63946}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:#555;font-size:0.9rem;font-weight:500}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.cart-btn{background:#e63946;color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:8px;font-size:0.9rem;cursor:pointer;font-weight:600}
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#e63946 100%);color:#fff;padding:5rem 3rem;text-align:center}
+.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;margin-bottom:1rem}
+.hero p{font-size:1.1rem;opacity:0.88;margin-bottom:2rem}
+.hero-btn{background:#fff;color:#e63946;padding:0.9rem 2.5rem;border-radius:50px;font-weight:700;font-size:1rem;border:none;cursor:pointer;transition:transform 0.2s}
+.hero-btn:hover{transform:scale(1.05)}
+.products{padding:4rem 3rem;max-width:1200px;margin:0 auto}
+.products h2{font-size:1.8rem;font-weight:700;margin-bottom:0.5rem}
+.products p{color:#777;margin-bottom:2rem}
+.filter-bar{display:flex;gap:0.75rem;margin-bottom:2rem;flex-wrap:wrap}
+.filter-btn{padding:0.45rem 1.1rem;border-radius:50px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:0.85rem;transition:all 0.2s}
+.filter-btn.active,.filter-btn:hover{background:#e63946;color:#fff;border-color:#e63946}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
+.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.07);transition:transform 0.2s,box-shadow 0.2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,0.12)}
+.card-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:4rem}
+.card-body{padding:1.2rem}
+.card-category{font-size:0.72rem;color:#e63946;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.3rem}
+.card-name{font-weight:600;font-size:1rem;margin-bottom:0.4rem}
+.card-desc{font-size:0.82rem;color:#888;margin-bottom:1rem;line-height:1.5}
+.card-footer{display:flex;align-items:center;justify-content:space-between}
+.price{font-size:1.2rem;font-weight:700;color:#1a1a1a}
+.add-btn{background:#e63946;color:#fff;border:none;padding:0.45rem 1rem;border-radius:8px;font-size:0.82rem;cursor:pointer;font-weight:600;transition:background 0.2s}
+.add-btn:hover{background:#c1121f}
+.badge{background:#ffd700;color:#1a1a1a;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:4px;margin-left:0.4rem}
+.banner{background:#1a1a2e;color:#fff;padding:3rem;text-align:center;margin:3rem 0}
+.banner h3{font-size:1.6rem;font-weight:700;margin-bottom:0.5rem}
+.banner p{opacity:0.75;margin-bottom:1.5rem}
+.banner-btn{background:#e63946;color:#fff;border:none;padding:0.75rem 2rem;border-radius:8px;font-weight:600;cursor:pointer}
+footer{background:#1a1a1a;color:#aaa;text-align:center;padding:2rem;font-size:0.85rem}
+footer span{color:#e63946;font-weight:600}
+.toast{position:fixed;bottom:2rem;right:2rem;background:#1a1a1a;color:#fff;padding:1rem 1.5rem;border-radius:12px;font-size:0.9rem;transform:translateY(100px);opacity:0;transition:all 0.3s;z-index:999}
+.toast.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Shop<span>Local</span> TT</div>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li><li><a href="#">Shop</a></li><li><a href="#">Deals</a></li><li><a href="#">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="showToast('🛒 Cart opened!')">🛒 Cart (0)</button>
+  </div>
+</nav>
+
+<section class="hero" style="background:linear-gradient(rgba(26,26,46,0.85),rgba(26,26,46,0.95)),url(https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1400&q=80&auto=format&fit=crop) center/cover no-repeat;">
+  <h1>Shop Trinidad's Best 🇹🇹</h1>
+  <p>Fresh local products, delivered to your door. Fast, reliable, and proudly Trinidadian.</p>
+  <button class="hero-btn" onclick="document.querySelector('.products').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+</section>
+
+<div class="products">
+  <h2>Featured Products</h2>
+  <p>Handpicked favourites from local vendors</p>
+  <div class="filter-bar">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Food</button>
+    <button class="filter-btn">Clothing</button>
+    <button class="filter-btn">Accessories</button>
+    <button class="filter-btn">Beauty</button>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="card-img" style="background:linear-gradient(135deg,#fff3cd,#ffd700)">🌶️</div><div class="card-body"><div class="card-category">Food</div><div class="card-name">Pepper Sauce Bundle <span class="badge">HOT</span></div><div class="card-desc">Three varieties of handmade TT pepper sauce — mild, medium, and extra hot.</div><div class="card-footer"><span class="price">$TT 85</span><button class="add-btn" onclick="addToCart(this)">Add to Cart</button></div></div></div>
+    <div class="card"><div class="card-img" style="background:linear-gradient(135deg,#e8f5e9,#a5d6a7)">👕</div><div class="card-body"><div class="card-category">Clothing</div><div class="card-name">Carnival Streetwear Tee</div><div class="card-desc">Premium cotton T-shirt with exclusive Carnival-inspired artwork. Unisex fit.</div><div class="card-footer"><span class="price">$TT 120</span><button class="add-btn" onclick="addToCart(this)">Add to Cart</button></div></div></div>
+    <div class="card"><div class="card-img" style="background:linear-gradient(135deg,#fce4ec,#f48fb1)">💍</div><div class="card-body"><div class="card-category">Accessories</div><div class="card-name">Beaded Waist Beads Set <span class="badge">NEW</span></div><div class="card-desc">Handcrafted waist beads made with local artisans. 3-piece set in vibrant colours.</div><div class="card-footer"><span class="price">$TT 150</span><button class="add-btn" onclick="addToCart(this)">Add to Cart</button></div></div></div>
+    <div class="card"><div class="card-img" style="background:linear-gradient(135deg,#e3f2fd,#90caf9)">🍫</div><div class="card-body"><div class="card-category">Food</div><div class="card-name">Dark Chocolate Gift Box</div><div class="card-desc">Award-winning Trinidadian dark chocolate. 70% cacao, ethically sourced.</div><div class="card-footer"><span class="price">$TT 200</span><button class="add-btn" onclick="addToCart(this)">Add to Cart</button></div></div></div>
+    <div class="card"><div class="card-img" style="background:linear-gradient(135deg,#f3e5f5,#ce93d8)">🧴</div><div class="card-body"><div class="card-category">Beauty</div><div class="card-name">Coconut Oil Hair Kit <span class="badge">SALE</span></div><div class="card-desc">Pure cold-pressed coconut oil + shea butter blend. Locally made and natural.</div><div class="card-footer"><span class="price">$TT 110</span><button class="add-btn" onclick="addToCart(this)">Add to Cart</button></div></div></div>
+    <div class="card"><div class="card-img" style="background:linear-gradient(135deg,#fff8e1,#ffe082)">🎒</div><div class="card-body"><div class="card-category">Accessories</div><div class="card-name">Woven Market Bag</div><div class="card-desc">Eco-friendly handwoven bag made from local grasses. Stylish and sustainable.</div><div class="card-footer"><span class="price">$TT 95</span><button class="add-btn" onclick="addToCart(this)">Add to Cart</button></div></div></div>
+  </div>
+</div>
+
+<div class="banner">
+  <h3>Free Delivery on Orders Over $TT 250 🚚</h3>
+  <p>Shop more, save more. Delivery available island-wide.</p>
+  <button class="banner-btn" onclick="showToast('🎉 Promo code LOCALTT applied!')">Claim Offer</button>
+</div>
+
+<footer>Built with ❤️ by <span>Shevin Ross</span> · ShopLocal TT © 2025</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+let cartCount = 0;
+function addToCart(btn){
+  cartCount++;
+  document.querySelector('.cart-btn').textContent = '🛒 Cart ('+cartCount+')';
+  showToast('✅ Added to cart!');
+}
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

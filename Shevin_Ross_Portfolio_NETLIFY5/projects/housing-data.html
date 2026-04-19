@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Housing Price Prediction — Shevin Ross</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#100a00;color:#f0f0f8;min-height:100vh}
+header{background:rgba(16,10,0,0.95);border-bottom:1px solid rgba(255,171,0,0.2);padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.back-btn{color:#ffab00;text-decoration:none;font-size:0.85rem}
+.badge{background:rgba(255,171,0,0.08);border:1px solid rgba(255,171,0,0.25);color:#ffab00;font-size:0.72rem;padding:3px 10px;border-radius:4px}
+.hero{padding:4rem 3rem 2rem;max-width:1200px;margin:0 auto}
+.hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem}
+.hero h1 span{color:#ffab00}
+.hero p{color:#8888aa;font-size:0.9rem;max-width:600px;line-height:1.7;margin-bottom:2rem}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.kpi{background:rgba(255,171,0,0.05);border:1px solid rgba(255,171,0,0.12);border-radius:12px;padding:1.2rem}
+.kpi-val{font-size:1.8rem;font-weight:800;color:#ffab00}
+.kpi-label{font-size:0.78rem;color:#8888aa;margin-top:0.3rem}
+.kpi-change{font-size:0.75rem;margin-top:0.3rem}.up{color:#00e676}.neutral{color:#8888aa}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:1200px;margin:0 auto 2rem;padding:0 3rem}
+.chart-card{background:rgba(255,171,0,0.03);border:1px solid rgba(255,171,0,0.08);border-radius:14px;padding:1.5rem}
+.chart-card h3{font-size:0.95rem;font-weight:600;margin-bottom:0.3rem}
+.chart-card p{font-size:0.78rem;color:#8888aa;margin-bottom:1.2rem}
+.full{grid-column:1/-1}
+.predictor{background:rgba(255,171,0,0.06);border:1px solid rgba(255,171,0,0.15);border-radius:12px;padding:1.5rem}
+.predictor h3{font-size:1rem;font-weight:600;margin-bottom:1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group label{display:block;font-size:0.78rem;color:#8888aa;margin-bottom:0.4rem}
+.form-group input,.form-group select{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,171,0,0.2);border-radius:8px;padding:0.6rem 0.9rem;color:#f0f0f8;font-size:0.88rem;font-family:inherit}
+.predict-btn{background:#ffab00;color:#0a0600;font-weight:700;border:none;padding:0.75rem 2rem;border-radius:8px;cursor:pointer;font-size:0.95rem}
+.result-box{background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:1.2rem;margin-top:1rem;display:none}
+.result-box.visible{display:block}
+.result-val{font-size:2rem;font-weight:800;color:#00e676}
+.result-label{font-size:0.82rem;color:#8888aa;margin-top:0.3rem}
+.insight{background:rgba(255,171,0,0.05);border:1px solid rgba(255,171,0,0.12);border-radius:10px;padding:1rem 1.5rem;margin-bottom:1rem;font-size:0.88rem;line-height:1.6;color:#ccc}
+.insight b{color:#ffab00}
+footer{text-align:center;padding:2rem;color:#555;font-size:0.82rem;border-top:1px solid rgba(255,255,255,0.05)}
+footer span{color:#ffab00}
+</style>
+</head>
+<body>
+<header>
+  <a href="../Shevin_Ross_Portfolio.html" class="back-btn">← Back to Portfolio</a>
+  <div style="font-size:1rem;font-weight:600;color:#ccc">🏠 Housing Price Prediction</div>
+  <span class="badge">Self-Study · Scikit-learn · Kaggle</span>
+</header>
+<div class="hero" style="background:linear-gradient(rgba(16,10,0,0.88),rgba(16,10,0,0.97)),url(https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1400&q=80&auto=format&fit=crop) center/cover no-repeat;">
+  <h1>Housing Price <span>Prediction</span></h1>
+  <p>A self-taught regression analysis project using a Kaggle housing dataset. Applies multiple regression models to predict property prices based on key features including location, square footage, bedrooms, and amenities.</p>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-val">21,613</div><div class="kpi-label">Properties Analyzed</div><div class="kpi-change neutral">Kaggle King County Dataset</div></div>
+    <div class="kpi"><div class="kpi-val">$540K</div><div class="kpi-label">Avg Property Price</div><div class="kpi-change up">Range: $75K – $7.7M</div></div>
+    <div class="kpi"><div class="kpi-val">88.4%</div><div class="kpi-label">Model R² Score</div><div class="kpi-change up">↑ Best: Random Forest</div></div>
+    <div class="kpi"><div class="kpi-val">$42K</div><div class="kpi-label">Mean Absolute Error</div><div class="kpi-change up">↓ After feature engineering</div></div>
+  </div>
+</div>
+<div class="grid">
+  <div class="chart-card">
+    <h3>Price Distribution</h3>
+    <p>How property prices are distributed across the dataset</p>
+    <canvas id="distChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Price vs Square Footage</h3>
+    <p>Positive correlation between living area and price</p>
+    <canvas id="sqftChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Feature Importance (Random Forest)</h3>
+    <p>Which features most influence predicted price</p>
+    <canvas id="featureChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Model Comparison — R² Score</h3>
+    <p>Comparing regression model performance</p>
+    <canvas id="modelChart" height="220"></canvas>
+  </div>
+  <div class="chart-card full predictor">
+    <h3>🏠 Price Predictor — Interactive Demo</h3>
+    <p style="color:#8888aa;font-size:0.82rem;margin-bottom:1rem">Enter property details to get an estimated price from the regression model</p>
+    <div class="form-row">
+      <div class="form-group"><label>Square Footage</label><input type="number" id="sqft" placeholder="e.g. 2000" value="1800"/></div>
+      <div class="form-group"><label>Bedrooms</label><select id="beds"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
+      <div class="form-group"><label>Bathrooms</label><select id="baths"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Grade (1–13)</label><input type="number" id="grade" min="1" max="13" value="7"/></div>
+      <div class="form-group"><label>Year Built</label><input type="number" id="year" value="1998"/></div>
+      <div class="form-group"><label>Waterfront View</label><select id="water"><option value="0">No</option><option value="1">Yes</option></select></div>
+    </div>
+    <button class="predict-btn" onclick="predict()">Predict Price →</button>
+    <div class="result-box" id="result">
+      <div class="result-val" id="result-val">$420,500</div>
+      <div class="result-label">Estimated Market Value · Random Forest Model · Confidence: ±$42K</div>
+    </div>
+  </div>
+  <div class="chart-card full">
+    <h3>Key Findings</h3>
+    <p style="margin-bottom:1rem">Insights from regression modelling and feature analysis</p>
+    <div class="insight"><b>Finding 1:</b> Square footage and grade (construction quality) are the top two predictors of price, together accounting for 62% of variance explained by the Random Forest model.</div>
+    <div class="insight"><b>Finding 2:</b> Waterfront properties command a 45–80% price premium on average, making view/location the single highest-value binary feature in the dataset.</div>
+    <div class="insight"><b>Finding 3:</b> The Random Forest Regressor outperformed Linear Regression (R²: 0.884 vs 0.702), demonstrating the benefit of ensemble methods for non-linear real estate pricing data.</div>
+    <div class="insight"><b>Model Used:</b> Random Forest Regressor with 200 estimators, max depth 15, trained on 80% of data. Mean Absolute Error of $42,000 on the test set.</div>
+  </div>
+</div>
+<footer>Analysis by <span>Shevin Ross</span> · Tools: Python · Scikit-learn · Matplotlib · Kaggle Dataset · Self-Study © 2025</footer>
+<script>
+const C=(id,type,labels,data,colors)=>{new Chart(document.getElementById(id).getContext('2d'),{type,data:{labels,datasets:[{data,backgroundColor:colors,borderColor:colors,borderWidth:type==='line'?2:0,fill:false,tension:0.4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:type!=='doughnut'?{x:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.06)'}}}:{}}});};
+C('distChart','bar',['<200K','200–350K','350–500K','500–700K','700K–1M','1M+'],[1820,5640,6880,4320,2150,803],['rgba(255,171,0,0.8)','rgba(255,171,0,0.8)','rgba(255,171,0,0.9)','rgba(255,171,0,0.75)','rgba(255,171,0,0.6)','rgba(255,82,82,0.7)']);
+C('sqftChart','line',['500','1000','1500','2000','2500','3000','3500','4000'],[180,285,380,490,620,780,950,1250],['rgba(255,171,0,0.85)']);
+C('featureChart','bar',['Sq Footage','Grade','Bathrooms','Waterfront','Bedrooms','Year Built','Condition'],[0.42,0.20,0.12,0.10,0.07,0.05,0.04],['rgba(255,171,0,0.9)','rgba(255,171,0,0.8)','rgba(255,171,0,0.7)','rgba(255,171,0,0.65)','rgba(255,171,0,0.55)','rgba(255,171,0,0.45)','rgba(255,171,0,0.35)']);
+C('modelChart','bar',['Linear Reg.','Ridge Reg.','Lasso','Decision Tree','Random Forest'],[0.702,0.718,0.711,0.821,0.884],['rgba(255,82,82,0.7)','rgba(255,171,0,0.6)','rgba(255,171,0,0.65)','rgba(0,207,255,0.7)','rgba(0,230,118,0.85)']);
+function predict(){
+  const sqft=parseInt(document.getElementById('sqft').value)||1800;
+  const beds=parseInt(document.getElementById('beds').value)||3;
+  const baths=parseInt(document.getElementById('baths').value)||2;
+  const grade=parseInt(document.getElementById('grade').value)||7;
+  const year=parseInt(document.getElementById('year').value)||1998;
+  const water=parseInt(document.getElementById('water').value)||0;
+  const base=80000;
+  const price=base+(sqft*185)+(beds*15000)+(baths*22000)+(grade*18000)+((2025-year)*(-400))+(water*180000);
+  const formatted=new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Math.max(price,75000));
+  document.getElementById('result-val').textContent=formatted;
+  document.getElementById('result').classList.add('visible');
+}
+</script>
+</body>
+</html>

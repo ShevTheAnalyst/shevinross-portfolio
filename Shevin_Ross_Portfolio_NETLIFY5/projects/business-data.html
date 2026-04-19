@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Small Business Data Analysis — Shevin Ross</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#071200;color:#f0f0f8;min-height:100vh}
+header{background:rgba(7,18,0,0.95);border-bottom:1px solid rgba(118,255,3,0.15);padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.back-btn{color:#76ff03;text-decoration:none;font-size:0.85rem}
+.badge{background:rgba(118,255,3,0.08);border:1px solid rgba(118,255,3,0.25);color:#76ff03;font-size:0.72rem;padding:3px 10px;border-radius:4px}
+.hero{padding:4rem 3rem 2rem;max-width:1200px;margin:0 auto}
+.hero h1{font-size:2rem;font-weight:800;margin-bottom:0.5rem}
+.hero h1 span{color:#76ff03}
+.hero p{color:#8888aa;font-size:0.9rem;max-width:600px;line-height:1.7;margin-bottom:2rem}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.kpi{background:rgba(118,255,3,0.05);border:1px solid rgba(118,255,3,0.12);border-radius:12px;padding:1.2rem}
+.kpi-val{font-size:2rem;font-weight:800;color:#76ff03}
+.kpi-label{font-size:0.78rem;color:#8888aa;margin-top:0.3rem}
+.kpi-change{font-size:0.75rem;margin-top:0.3rem}.up{color:#00e676}.down{color:#ff5252}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:1200px;margin:0 auto 2rem;padding:0 3rem}
+.chart-card{background:rgba(118,255,3,0.03);border:1px solid rgba(118,255,3,0.08);border-radius:14px;padding:1.5rem}
+.chart-card h3{font-size:0.95rem;font-weight:600;margin-bottom:0.3rem}
+.chart-card p{font-size:0.78rem;color:#8888aa;margin-bottom:1.2rem}
+.full{grid-column:1/-1}
+.insight{background:rgba(118,255,3,0.05);border:1px solid rgba(118,255,3,0.12);border-radius:10px;padding:1rem 1.5rem;margin-bottom:1rem;font-size:0.88rem;line-height:1.6;color:#ccc}
+.insight b{color:#76ff03}
+footer{text-align:center;padding:2rem;color:#555;font-size:0.82rem;border-top:1px solid rgba(255,255,255,0.05)}
+footer span{color:#76ff03}
+</style>
+</head>
+<body>
+<header>
+  <a href="../Shevin_Ross_Portfolio.html" class="back-btn">← Back to Portfolio</a>
+  <div style="font-size:1rem;font-weight:600;color:#ccc">💼 Small Business Data Analysis</div>
+  <span class="badge">Self-Study · Kaggle Dataset</span>
+</header>
+<div class="hero" style="background:linear-gradient(rgba(7,18,0,0.88),rgba(7,18,0,0.97)),url(https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1400&q=80&auto=format&fit=crop) center/cover no-repeat;">
+  <h1>Small Business <span>Data Analysis</span></h1>
+  <p>A self-initiated business intelligence project using Kaggle SME data. This analysis surfaces revenue drivers, cost inefficiencies, and operational recommendations to support business decision-making.</p>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-val">$2.4M</div><div class="kpi-label">Total Revenue Analyzed</div><div class="kpi-change up">↑ 22% YoY growth</div></div>
+    <div class="kpi"><div class="kpi-val">31.8%</div><div class="kpi-label">Avg Profit Margin</div><div class="kpi-change up">↑ 4.2% from prior year</div></div>
+    <div class="kpi"><div class="kpi-val">$148K</div><div class="kpi-label">Highest Monthly Revenue</div><div class="kpi-change up">↑ December peak</div></div>
+    <div class="kpi"><div class="kpi-val">18%</div><div class="kpi-label">Operating Cost Reduction</div><div class="kpi-change up">↑ After optimisation</div></div>
+  </div>
+</div>
+<div class="grid">
+  <div class="chart-card full">
+    <h3>Monthly Revenue vs Expenses (Full Year)</h3>
+    <p>Revenue and operating costs tracked across all 12 months</p>
+    <canvas id="revChart" height="120"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Revenue by Product Category</h3>
+    <p>Top-performing product lines by revenue contribution</p>
+    <canvas id="catChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Cost Breakdown</h3>
+    <p>Where operational spending is concentrated</p>
+    <canvas id="costChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Customer Acquisition by Channel</h3>
+    <p>Which channels bring in the most new customers</p>
+    <canvas id="chanChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Profit Margin by Quarter</h3>
+    <p>Net profit margin trend across all four quarters</p>
+    <canvas id="marginChart" height="220"></canvas>
+  </div>
+  <div class="chart-card full">
+    <h3>Key Findings & Recommendations</h3>
+    <p style="margin-bottom:1rem">Insights derived from end-to-end business data analysis</p>
+    <div class="insight"><b>Finding 1:</b> Electronics and Apparel account for 54% of total revenue but only 38% of SKUs — indicating these two categories punch significantly above their weight and deserve prioritised investment.</div>
+    <div class="insight"><b>Finding 2:</b> Rent and payroll constitute 71% of total operating costs. A 10% reduction in overhead (e.g. remote work hybrid, renegotiated leases) could add approximately $48K to net profit annually.</div>
+    <div class="insight"><b>Finding 3:</b> Social media drives 42% of new customer acquisition at the lowest cost-per-acquisition ($12 vs $38 for paid ads), suggesting reallocation of marketing budget away from traditional channels.</div>
+    <div class="insight"><b>Recommendation:</b> Focus Q3–Q4 inventory investment on Electronics and Apparel, reduce paid advertising spend by 30%, and explore remote-hybrid models to cut facility costs.</div>
+  </div>
+</div>
+<footer>Analysis by <span>Shevin Ross</span> · Tools: Excel · SQL · Python · Kaggle Dataset · Self-Study © 2025</footer>
+<script>
+const C=(id,type,labels,datasets_or_data,colors,multi=false)=>{
+  const ds=multi?datasets_or_data:[{data:datasets_or_data,backgroundColor:colors,borderColor:colors,borderWidth:type==='line'?2:0,fill:false,tension:0.4}];
+  new Chart(document.getElementById(id).getContext('2d'),{type,data:{labels,datasets:ds},options:{responsive:true,plugins:{legend:{display:type==='doughnut'||multi,labels:{color:'#8888aa',boxWidth:12}}},scales:type!=='doughnut'?{x:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.04)'}},y:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.06)'}}}:{}}});
+};
+C('revChart','line',['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  [{label:'Revenue',data:[98,105,112,108,120,115,118,122,130,128,140,148],borderColor:'rgba(118,255,3,0.9)',backgroundColor:'rgba(118,255,3,0.1)',fill:true,tension:0.4,borderWidth:2},
+   {label:'Expenses',data:[72,75,78,74,82,79,80,83,88,87,95,100],borderColor:'rgba(255,82,82,0.8)',backgroundColor:'rgba(255,82,82,0.08)',fill:true,tension:0.4,borderWidth:2}],
+  null,true);
+C('catChart','bar',['Electronics','Apparel','Food','Home & Garden','Beauty','Toys'],[580,420,310,240,180,130],['rgba(118,255,3,0.8)','rgba(118,255,3,0.72)','rgba(118,255,3,0.6)','rgba(118,255,3,0.5)','rgba(118,255,3,0.4)','rgba(118,255,3,0.35)']);
+C('costChart','doughnut',['Payroll','Rent','Inventory','Marketing','Utilities','Other'],[42,29,14,8,4,3],['rgba(255,171,0,0.8)','rgba(255,82,82,0.8)','rgba(0,207,255,0.7)','rgba(183,0,255,0.7)','rgba(118,255,3,0.7)','rgba(255,255,255,0.3)']);
+C('chanChart','bar',['Social Media','Word of Mouth','Paid Ads','Email','Events','Other'],[42,24,18,10,4,2],['rgba(0,207,255,0.8)','rgba(0,207,255,0.7)','rgba(0,207,255,0.6)','rgba(0,207,255,0.5)','rgba(0,207,255,0.4)','rgba(0,207,255,0.35)']);
+C('marginChart','bar',['Q1','Q2','Q3','Q4'],[27.4,30.2,33.8,35.8],['rgba(118,255,3,0.65)','rgba(118,255,3,0.75)','rgba(118,255,3,0.85)','rgba(118,255,3,0.95)']);
+</script>
+</body>
+</html>
